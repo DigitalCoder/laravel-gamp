@@ -180,9 +180,9 @@ The MIT License (MIT). Please see [License File][link-license] for more informat
 [link-phpchat]: https://phpchat.co/?ref=laravel-gamp
 [link-author]: https://github.com/irazasyed
 [link-repo]: https://github.com/irazasyed/laravel-gamp
-[link-license]: LICENSE.md
-[link-issues]: ../../issues
-[link-contributors]: ../../contributors
+[link-license]: https://github.com/irazasyed/laravel-gamp/blob/master/LICENSE.md
+[link-issues]: https://github.com/irazasyed/laravel-gamp/issues
+[link-contributors]: https://github.com/irazasyed/laravel-gamp/contributors
 [link-lib]: https://github.com/theiconic/php-ga-measurement-protocol
 [link-docs]: https://github.com/theiconic/php-ga-measurement-protocol#usage
 [link-packagist]: https://packagist.org/packages/irazasyed/laravel-gamp
