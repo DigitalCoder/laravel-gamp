@@ -1,0 +1,8 @@
+title: Laravel-gamp
+description: Laravel 5 Google Analytics Measurement Protocol Package
+google_analytics: UA-54567513-4
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
