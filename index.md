@@ -1,30 +1,33 @@
 Laravel-GAMP Package
-=========================
+=====================
 
-[![Package for Laravel](https://img.shields.io/badge/Package%20for%20Laravel-5/5.1-blue.svg?style=flat-square)](https://github.com/irazasyed/laravel-gamp)
-[![Latest Version](https://img.shields.io/github/release/irazasyed/laravel-gamp.svg?style=flat-square)](https://github.com/irazasyed/laravel-gamp/releases)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/880d79a9-7bab-4872-ab98-76b2e53429e9/mini.png)](https://insight.sensiolabs.com/projects/880d79a9-7bab-4872-ab98-76b2e53429e9)
-[![Total Downloads](https://img.shields.io/packagist/dt/irazasyed/laravel-gamp.svg?style=flat-square)](https://packagist.org/packages/irazasyed/laravel-gamp)
+[![Join the PHP Chat community][ico-phpchat]][link-phpchat]
+[![Laravel & Lumen Package][ico-package]][link-repo]
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]][link-license]
+[![SensioLabsInsight][ico-sensiolabs]][link-sensiolabs]
+[![Total Downloads][ico-downloads]][link-downloads]
 
+> Laravel GAMP: Google Analytics Measurement Protocol Package for Laravel 5 & Lumen 5.
+>
+> Send data to Google Analytics from Laravel/Lumen. Supports all GA Measurement Protocol API methods.
 
-> Laravel GAMP: Google Analytics Measurement Protocol Package for Laravel 5.
-> Send data to Google Analytics from Laravel. Supports all GA Measurement Protocol API methods.
-
-[![Laravel GAMP](https://cloud.githubusercontent.com/assets/1915268/8476296/b49f74ac-20dd-11e5-8698-aa23b2f7e6fd.png)](https://github.com/irazasyed)
+[![Laravel GAMP][cover-img]][link-author]
 
 
 ## Quick start
 
-> If you're on Laravel `4.2` or on `5.0` with PHP `5.4` & above, Please use `0.5` branch.
+> If you're using Laravel `4.2.*` or `5.0.*` on PHP `5.4` & above, Please use `0.5` branch. Otherwise, Just follow the below instructions.
+>
+> **Note:** `0.5` branch is outdated and no longer supported. Consider upgrading if you're one of those users.
 
-### Installation
+### Install
 
 #### Step 1: Install Through Composer
 
 You can either add the package directly by firing this command
 
-```cli
+``` bash
 $ composer require irazasyed/laravel-gamp
 ```
 
@@ -36,37 +39,47 @@ Or add in the `require` key of `composer.json` file manually
 
 And Run the Composer update command
 
-```cli
+``` bash
 $ composer update
 ```
 
 #### Step 2: Add the Service Provider
 
+##### Laravel
+
 Open `config/app.php` and, to your "providers" array at the bottom, add:
 
-```php
+``` php
 Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class
 ```
 
-#### Step 3: Add Facade (Optional)
+##### Lumen
+
+Open `bootstrap/app.php` and add register the service provider by adding:
+
+``` php
+$app->register(Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider::class);
+```
+
+#### Step 3: Add Facade (Optional) (Laravel Only)
 
 Optionally add an alias to make it easier to use the library. Open `config/app.php` and, to your "aliases" array at the bottom, add:
 
-```php
+``` php
 'GAMP'  => Irazasyed\LaravelGAMP\Facades\GAMP::class
 ```
 
-#### Step 4: Publish Config
+#### Step 4: Publish Config (Laravel Only)
 
 Open your terminal window and fire the following command to publish config file to your config directory:
 
-```cli
+``` bash
 $ php artisan vendor:publish --provider="Irazasyed\LaravelGAMP\LaravelGAMPServiceProvider"
 ```
 
 OR
 
-```cli
+``` bash
 $ php artisan vendor:publish
 ```
 
@@ -78,18 +91,32 @@ The former command publishes config file for just this package and the latter pu
 Open config file `config/gamp.php` and set the `tracking_id` with your Google Analytics tracking / web property ID.
 Refer the config file for other default configuration settings.
 
-This Package adds Laravel Support to [GA Measurement Protocol][1] PHP Library by [THE ICONIC](https://github.com/theiconic).
+This Package adds Laravel Support to [GA Measurement Protocol][link-lib] PHP Library by THE ICONIC.
 It's simply a wrapper around the library with default config for easier usage with Laravel.
-So all the methods listed [here][2] are available and will work seamlessly.
+So all the methods listed [here][link-docs] are available and will work seamlessly.
 
 ### Example Usage
 
 Send a Page view hit:
 
-```php
+``` php
+use Irazasyed\LaravelGAMP\Facades\GAMP;
+
 $gamp = GAMP::setClientId( '123456' );
 $gamp->setDocumentPath( '/page' );
 $gamp->sendPageview();
+```
+
+Send an Event:
+
+``` php
+use Irazasyed\LaravelGAMP\Facades\GAMP;
+
+$gamp = GAMP::setClientId( '123456' );
+$gamp->setEventCategory('Blog Post')
+->setEventAction('Create')
+->setEventLabel('Using GAMP In Laravel')
+->sendEvent();
 ```
 
 ### Config Overview
@@ -98,7 +125,7 @@ Open the config file for detailed comments for each option.
 
 Set your Google Analytics Tracking / Web Property ID in `tracking_id` key **[REQUIRED]**
 
-```php
+``` php
 'tracking_id' => 'UA-XXXX-Y',
 ```
 
@@ -106,40 +133,58 @@ All other configuration options are optional, use as per your requirements.
 
 To send data over SSL, set `is_ssl` to true.
 
-```php
+``` php
 'is_ssl' => true,
 ```
 
 To Anonymize IP, set `anonymize_ip` to true.
 
-```php
+``` php
 'anonymize_ip' => true,
 ```
 
 To Make Async Requests, set `async_requests` to true.
 
-```php
+``` php
 'async_requests'  => true,
 ```
 
 ...
 
-Refer the library's [documentation][2] for other remaining methods and examples, they all work.
+Refer the library's [documentation][link-docs] for other remaining methods and examples, they all work.
 
 > **Note:** You don't have to use the protocol version, tracking id, anonymize ip and async request (non-blocking) methods from the original library as they're automatically set in Service Provider when the package is initialized based on the config file. As long as you update the config file with correct settings, it should work just fine.
 
 ## Additional information
 
-Any issues, please [report here](https://github.com/irazasyed/laravel-gamp/issues)
+Any issues, please [report here][link-issues]
 
 ## Credits
 
-This package is a wrapper around the GA Measurement Protocol PHP Library. Thanks to the guys @ [THE ICONIC][1] who developed the library!
-
-[1]: https://github.com/theiconic/php-ga-measurement-protocol
-[2]: https://github.com/theiconic/php-ga-measurement-protocol#usage
+- [Syed Irfaq R.][link-author] - For Laravel and Lumen Bridge.
+- [THE ICONIC][link-lib] - For GA Measurement Protocol PHP Library.
+- [All Contributors][link-contributors]
 
 ## License
 
-[MIT](LICENSE) © [Syed Irfaq R.](https://github.com/irazasyed)
+The MIT License (MIT). Please see [License File][link-license] for more information.
 
+[cover-img]: https://cloud.githubusercontent.com/assets/1915268/8476296/b49f74ac-20dd-11e5-8698-aa23b2f7e6fd.png
+[ico-phpchat]: https://img.shields.io/badge/Join-PHP%20Chat-blue.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/irazasyed/laravel-gamp.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/irazasyed/laravel-gamp.svg?style=flat-square
+[ico-sensiolabs]: https://insight.sensiolabs.com/projects/880d79a9-7bab-4872-ab98-76b2e53429e9/mini.png
+[ico-package]: https://img.shields.io/badge/Laravel%20%26%20Lumen-5-blue.svg?style=flat-square
+
+[link-phpchat]: https://phpchat.co/?ref=laravel-gamp
+[link-author]: https://github.com/irazasyed
+[link-repo]: https://github.com/irazasyed/laravel-gamp
+[link-license]: LICENSE.md
+[link-issues]: ../../issues
+[link-contributors]: ../../contributors
+[link-lib]: https://github.com/theiconic/php-ga-measurement-protocol
+[link-docs]: https://github.com/theiconic/php-ga-measurement-protocol#usage
+[link-packagist]: https://packagist.org/packages/irazasyed/laravel-gamp
+[link-downloads]: https://packagist.org/packages/irazasyed/laravel-gamp/stats
+[link-sensiolabs]: https://insight.sensiolabs.com/projects/880d79a9-7bab-4872-ab98-76b2e53429e9
